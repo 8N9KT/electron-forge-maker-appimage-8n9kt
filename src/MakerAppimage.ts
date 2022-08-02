@@ -15,6 +15,7 @@ const makerPackageName = "electron-forge-maker-appimage";
 interface AppImageForgeConfig {
   template?: string;
   chmodChromeSandbox?: string;
+  icon?: { file: string; size: number; }[];
 }
 
 const isIForgeResolvableMaker = (
@@ -82,7 +83,7 @@ export default class MakerAppImage extends MakerBase<MakerAppImageConfig> {
       "../..",
       "node_modules/app-builder-lib/templates/icons/electron-linux"
     );
-    const icons = [
+    var icons = [
       { file: `${iconPath}/16x16.png`, size: 16 },
       { file: `${iconPath}/32x32.png`, size: 32 },
       { file: `${iconPath}/48x48.png`, size: 48 },
@@ -90,6 +91,10 @@ export default class MakerAppImage extends MakerBase<MakerAppImageConfig> {
       { file: `${iconPath}/128x128.png`, size: 128 },
       { file: `${iconPath}/256x256.png`, size: 256 }
     ];
+
+    if(config !== undefined && config.icon !== undefined){
+      var icons = config.icon ;
+    }
 
     const stageDir = path.join(makeDir, "__appImage-x64");
 
